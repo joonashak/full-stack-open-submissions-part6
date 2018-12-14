@@ -1,15 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { reset } from '../reducers/notificationReducer';
 
 
-export default class Notification extends React.Component {
+const mapStateToProps = (state) => ({ notification: state.notification });
+const mapDispatchToProps = { reset };
+
+class Notification extends React.Component {
 
   componentDidUpdate = (prevProps) => {
-    setTimeout(() => this.props.store.dispatch(reset()), 5000);
+    setTimeout(() => this.props.reset(), 5000);
   };
 
   render () {
-    const { notification } = this.props.store.getState();
+    const { notification } = this.props;
 
     const style = {
       border: 'solid',
@@ -24,3 +28,5 @@ export default class Notification extends React.Component {
     );
   }
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);

@@ -1,17 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { create } from '../reducers/anecdoteReducer';
 import { set as setNotification } from '../reducers/notificationReducer';
 
 
-export default (props) => {
+const mapDispatchToProps = { setNotification, create };
+
+const AnecdoteForm = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const content = event.target.anecdote.value;
-    props.store.dispatch(create(content));
+    props.create(content);
   
     event.target.anecdote.value = '';
-    props.store.dispatch(setNotification(content));
+    props.setNotification(content);
   };
 
   return (
@@ -23,4 +26,6 @@ export default (props) => {
         </form>
     </div>
   );
-}
+};
+
+export default connect(null, mapDispatchToProps)(AnecdoteForm);
